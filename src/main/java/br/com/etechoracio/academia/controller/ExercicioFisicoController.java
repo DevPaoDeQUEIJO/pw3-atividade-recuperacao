@@ -52,4 +52,18 @@ public class ExercicioFisicoController {
                 .body(exercicioCriado);
     }
 
+    @PatchMapping("/{id}/aprovar")
+    public ResponseEntity<ExercicioFisicoResponseDTO> aprovar(
+            @PathVariable("id") Long id) {
+
+        Optional<ExercicioFisicoResponseDTO> result =
+                exercicioFisicoService.aprovar(id);
+
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
