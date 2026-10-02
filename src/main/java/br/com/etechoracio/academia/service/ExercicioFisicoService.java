@@ -6,6 +6,8 @@ import br.com.etechoracio.academia.repository.ExercicioFisicoRepository;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.List;
+import br.com.etechoracio.academia.dto.ExercicioFisicoRequestDTO;
+import br.com.etechoracio.academia.entity.ExercicioFisico;
 
 @Service
 public class ExercicioFisicoService {
@@ -30,6 +32,20 @@ public class ExercicioFisicoService {
     public Optional<ExercicioFisicoResponseDTO> buscarPorId(Long id) {
         return exercicioFisicoRepository.findByIdAndAprovadoTrue(id)
                 .map(exercicioFisicoMapper::toResponseDTO);
+    }
+
+    public ExercicioFisicoResponseDTO criar(
+            ExercicioFisicoRequestDTO exercicioFisicoRequestDTO) {
+
+        ExercicioFisico exercicio =
+                exercicioFisicoMapper.toEntity(exercicioFisicoRequestDTO);
+
+        exercicio.setAprovado(false);
+
+        ExercicioFisico exercicioSalvo =
+                exercicioFisicoRepository.save(exercicio);
+
+        return exercicioFisicoMapper.toResponseDTO(exercicioSalvo);
     }
 
 }

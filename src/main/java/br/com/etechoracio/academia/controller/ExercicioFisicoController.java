@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
-
+import br.com.etechoracio.academia.dto.ExercicioFisicoRequestDTO;
+import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,17 @@ public class ExercicioFisicoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<ExercicioFisicoResponseDTO> criar(
+            @RequestBody ExercicioFisicoRequestDTO exercicioFisicoRequestDTO) {
+
+        ExercicioFisicoResponseDTO exercicioCriado =
+                exercicioFisicoService.criar(exercicioFisicoRequestDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(exercicioCriado);
     }
 
 }
