@@ -3,6 +3,9 @@ package br.com.etechoracio.academia.controller;
 import br.com.etechoracio.academia.dto.ExercicioFisicoResponseDTO;
 import br.com.etechoracio.academia.service.ExercicioFisicoService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Optional;
 
 import java.util.List;
 
@@ -21,6 +24,20 @@ public class ExercicioFisicoController {
     @GetMapping
     public List<ExercicioFisicoResponseDTO> buscarTodos() {
         return exercicioFisicoService.buscarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ExercicioFisicoResponseDTO> buscarPorId(
+            @PathVariable("id") Long id) {
+
+        Optional<ExercicioFisicoResponseDTO> result =
+                exercicioFisicoService.buscarPorId(id);
+
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
